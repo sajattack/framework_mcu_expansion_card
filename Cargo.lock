@@ -208,6 +208,16 @@ dependencies = [
 ]
 
 [[package]]
+name = "defmt-rtt"
+version = "0.4.1"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "bab697b3dbbc1750b7c8b821aa6f6e7f2480b47a99bc057a2ed7b170ebef0c51"
+dependencies = [
+ "critical-section",
+ "defmt",
+]
+
+[[package]]
 name = "embedded-hal"
 version = "0.2.7"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -259,6 +269,7 @@ name = "framework_mcu_expansion_card_fw"
 version = "0.1.0"
 dependencies = [
  "defmt",
+ "defmt-rtt",
  "embedded-hal 0.2.7",
  "framework_mcu_expansion_card_bsp",
  "panic-probe",
@@ -730,8 +741,7 @@ dependencies = [
 [[package]]
 name = "ws2812-spi"
 version = "0.5.0"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "4f4ce053ea8f2d86623af8be7358837b374f710374663d4fab7043aab14a6aa7"
+source = "git+https://github.com/jbeaurivage/ws2812-spi-rs?branch=prerendered-continuous-txn#293e698ea7716b163aca519e09f74e7a4c9a3a74"
 dependencies = [
  "embedded-hal 1.0.0",
  "smart-leds-trait",

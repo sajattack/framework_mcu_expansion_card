@@ -16,8 +16,9 @@ chip = "ATSAMD21G18A"
 
 [dependencies]
 defmt = "0.3.8"
+defmt-rtt = "0.4.1"
 embedded-hal = { version = "0.2", features=["unproven"]}
 framework_mcu_expansion_card_bsp = { path = "../framework_mcu_expansion_card_bsp"}
-panic-probe = { version = "0.3.2", features = ["defmt", "rtt-target"] }
+panic-probe = { version = "0.3.2", features = ["defmt", "rtt-target", "print-defmt"] }
 smart-leds = "0.4.0"
-ws2812-spi = { version = "0.5.0", features=["mosi_idle_high"] }
+ws2812-spi = { git="https://github.com/jbeaurivage/ws2812-spi-rs", branch="prerendered-continuous-txn", features=["mosi_idle_high"] }

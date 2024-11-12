@@ -9,6 +9,7 @@
 // // Needs to be compiled with --release for the timing to be correct
 
 use panic_probe as _;
+use defmt_rtt as _;
 
 use framework_mcu_expansion_card_bsp as bsp;
 use bsp::hal;
@@ -24,11 +25,11 @@ use hal::sercom::spi;
 use pac::{CorePeripherals, Peripherals};
 
 
-use embedded_hal::digital::v2::OutputPin;
+use embedded_hal::digital::v2::{OutputPin, ToggleableOutputPin};
 
 use smart_leds::{
     hsv::{hsv2rgb, Hsv},
-    SmartLedsWrite
+    SmartLedsWrite,
 };
 use ws2812_spi as ws2812;
 
@@ -45,35 +46,49 @@ fn main() -> ! {
     let pins = bsp::Pins::new(peripherals.port);
     let mut delay = Delay::new(core.SYST, &mut clocks);
 
-    let miso = pins.led_miso;
-    let mosi = pins.led_in;
-    let sck = pins.led_sck;
-
     let gclk = clocks.gclk0();
 
-    let pads = spi::Pads::default().data_in(miso).data_out(mosi).sclk(sck);
-    let clock = clocks.sercom3_core(&gclk).unwrap();
-    let spi = spi::Config::new(&peripherals.pm, peripherals.sercom3, pads, clock.freq())
-        .baud(Hertz::MHz(3))
-        .spi_mode(spi::MODE_0)
-        .enable();
+    let mut d3 = pins.d3.into_push_pull_output();
+    
+    defmt::info!("Framework MCU Blinky");
+    defmt::info!("Initialization complete");
 
-    let mut led_en = pins.led_en.into_push_pull_output();
-    led_en.set_high().unwrap();
-
-    let mut neopixel = ws2812::Ws2812::new(spi);
-
-    // Loop through all of the available hue values (colors) to make a
-    // rainbow effect from the onboard neopixel
     loop {
-        for j in 0..255u8 {
-            let colors = [hsv2rgb(Hsv {
-                hue: j,
-                sat: 255,
-                val: 2,
-            }); 1];
-            neopixel.write(colors.iter().cloned()).unwrap();
-            delay.delay_ms(5u8);
-        }
+        d3.toggle();
+        delay.delay_ms(200u8);
     }
+
+
+    //let miso = pins.led_miso;
+    //let mosi = pins.led_in;
+    //let sck = pins.led_sck;
+
+    //let pads = spi::Pads::default().data_in(miso).data_out(mosi).sclk(sck);
+    //let clock = clocks.sercom3_core(&gclk).unwrap();
+    //let spi = spi::Config::new(&peripherals.pm, peripherals.sercom3, pads, clock.freq())
+        //.baud(Hertz::MHz(3))
+        //.spi_mode(spi::MODE_0)
+        //.enable();
+
+    //let mut led_en = pins.led_en.into_push_pull_output();
+    //led_en.set_high().unwrap();
+
+
+    //let mut output_buffer = [0; 280 + (1 * 12)];
+    //let mut neopixel = ws2812::prerendered::Ws2812::new(spi, &mut output_buffer);
+
+
+    //// Loop through all of the available hue values (colors) to make a
+    //// rainbow effect from the onboard neopixel
+    //loop {
+        //for j in 0..255u8 {
+            //let colors = [hsv2rgb(Hsv {
+                //hue: j,
+                //sat: 255,
+                //val: 2,
+            //}); 1];
+            //neopixel.write(colors.iter().cloned()).unwrap();
+            //delay.delay_ms(5u8);
+        //}
+    //}
 }
