@@ -1,0 +1,23 @@
+[package]
+name = "framework_mcu_expansion_card_fw"
+version = "0.1.0"
+authors = ["Paul Sajna <hello@paulsajna.com>"]
+description = "Firmware for the FrameWork Microcontroller Expansion Card"
+keywords = ["no-std", "arm", "cortex-m", "embedded-hal", "framework", "microcontroller", "firmware"]
+categories = ["embedded", "hardware-support", "no-std"]
+license = "MIT OR Apache-2.0"
+repository = "https://github.com/sajattack/framework_mcu_expansion_card"
+readme = "README.md"
+edition = "2021"
+
+# for cargo flash
+[package.metadata]
+chip = "ATSAMD21G18A"
+
+[dependencies]
+defmt = "0.3.8"
+embedded-hal = { version = "0.2", features=["unproven"]}
+framework_mcu_expansion_card_bsp = { path = "../framework_mcu_expansion_card_bsp"}
+panic-probe = { version = "0.3.2", features = ["defmt", "rtt-target"] }
+smart-leds = "0.4.0"
+ws2812-spi = { version = "0.5.0", features=["mosi_idle_high"] }

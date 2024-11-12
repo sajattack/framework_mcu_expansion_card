@@ -1,0 +1,29 @@
+[package]
+name = "framework_mcu_expansion_card_bsp"
+version = "0.1.0"
+authors = ["Paul Sajna <hello@paulsajna.com>"]
+description = "Board Support crate for the FrameWork Microcontroller Expansion Card"
+keywords = ["no-std", "arm", "cortex-m", "embedded-hal", "framework", "microcontroller"]
+categories = ["embedded", "hardware-support", "no-std"]
+license = "MIT OR Apache-2.0"
+repository = "https://github.com/sajattack/framework_mcu_expansion_card"
+readme = "README.md"
+edition = "2021"
+
+[dev-dependencies]
+
+[features]
+# ask the HAL to enable atsamd21g support
+default = ["rt", "atsamd-hal/samd21g"]
+rt = ["cortex-m-rt", "atsamd-hal/samd21g-rt"]
+
+# for cargo flash
+[package.metadata]
+chip = "ATSAMD21G18A"
+
+[dependencies]
+# track master until this is properly released so we stay up to date
+# then change to a released version
+atsamd-hal = { git = "https://github.com/atsamd-rs/atsamd" }
+cortex-m-rt = { version = "0.7", optional=true }
+cortex-m = { version = "0.7", features = ["critical-section-single-core"] }

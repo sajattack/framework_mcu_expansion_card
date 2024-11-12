@@ -1,0 +1,9 @@
+[workspace]
+members=[ 
+    "framework_mcu_expansion_card_bsp",
+    "framework_mcu_expansion_card_fw"
+]
+resolver="2"
+
+[profile.release]
+debug = true
