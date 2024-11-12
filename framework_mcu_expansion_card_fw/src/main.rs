@@ -1,13 +1,6 @@
 #![no_std]
 #![no_main]
 
-// Neopixel Rainbow
-// This only functions when the --release version is compiled. Using the debug
-// version leads to slow pulse durations which results in a straight white LED
-// output.
-//
-// // Needs to be compiled with --release for the timing to be correct
-
 use panic_probe as _;
 use defmt_rtt as _;
 
