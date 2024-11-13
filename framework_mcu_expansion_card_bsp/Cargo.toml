@@ -24,6 +24,7 @@ chip = "ATSAMD21G18A"
 [dependencies]
 # track master until this is properly released so we stay up to date
 # then change to a released version
-atsamd-hal = { git = "https://github.com/atsamd-rs/atsamd" }
+atsamd-hal = { git = "https://github.com/atsamd-rs/atsamd", features=["usb"]}
 cortex-m-rt = { version = "0.7", optional=true }
 cortex-m = { version = "0.7", features = ["critical-section-single-core"] }
+usb-device = "0.3.2"

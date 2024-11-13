@@ -39,7 +39,6 @@ fn main() -> ! {
     let pins = bsp::Pins::new(peripherals.port);
     let mut delay = Delay::new(core.SYST, &mut clocks);
 
-    let gclk = clocks.gclk0();
 
     let mut d3 = pins.d3.into_push_pull_output();
     
@@ -47,10 +46,11 @@ fn main() -> ! {
     defmt::info!("Initialization complete");
 
     loop {
-        d3.toggle();
+        d3.toggle().unwrap();
         delay.delay_ms(200u8);
     }
 
+    //let gclk = clocks.gclk0();
 
     //let miso = pins.led_miso;
     //let mosi = pins.led_in;
